@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dwca-unzip-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dwca-unzip
+  template:
+    metadata:
+      labels:
+        app: dwca-unzip
+    spec:
+      containers:
+      - name: dwca-unzip
+        image: gbifnorway/dwca-unzip:latest
+        env:
+          - name: S3_HOST
+            valueFrom:
+              secretKeyRef:
+                name: s3-secret
+                key: s3-host
+          - name: S3_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: s3-secret
+                key: s3-access-key
+          - name: S3_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: s3-secret
+                key: s3-secret-key
