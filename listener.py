@@ -32,8 +32,6 @@ def listen():
                         with open(object_name, 'wb') as file_data:
                             for d in data.stream(32*1024):
                                 file_data.write(d)
-
-                        # Move the file to the Samba drive and unzip it
                         subprocess.run(["mv", object_name, file_dir_map[object_name]], check=True)
                         subprocess.run(["unzip", "-o", file_dir_map[object_name] + object_name, "-d", file_dir_map[object_name]], check=True)
     except ReadTimeoutError as e:
